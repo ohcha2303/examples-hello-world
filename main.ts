@@ -1,4 +1,4 @@
-const GEMINI_KEY = "AIzaSyCXZDOA1P2O41LOopi-EGiRfpFDx-LdrtQ";
+const GEMINI_KEY = Deno.env.get("GEMINI_KEY") || "";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
