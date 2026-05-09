@@ -2,7 +2,7 @@ const GEMINI_KEY = "AIzaSyB8QU14XxAA2zIx9Yo_fsPRLyo55rR4lGw";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
@@ -11,14 +11,30 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: cors });
   }
 
-  if (req.method !== "POST") {
+  if (req.method === "GET") {
     return new Response(JSON.stringify({ status: "ok" }), {
       headers: { ...cors, "Content-Type": "application/json" },
     });
   }
 
   try {
-    const { img, mime } = await req.json();
+    const text = await req.text();
+    console.log("Body length:", text.length);
+    console.log("Body preview:", text.slice(0, 100));
+
+    if (!text || text.length === 0) {
+      return new Response(JSON.stringify({ error: "Empty body" }), {
+        headers: { ...cors, "Content-Type": "application/json" },
+      });
+    }
+
+    const { img, mime } = JSON.parse(text);
+
+    if (!img) {
+      return new Response(JSON.stringify({ error: "No image data" }), {
+        headers: { ...cors, "Content-Type": "application/json" },
+      });
+    }
 
     const body = {
       contents: [{
@@ -30,7 +46,7 @@ Deno.serve(async (req) => {
     };
 
     const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
       { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }
     );
 
@@ -40,9 +56,9 @@ Deno.serve(async (req) => {
     });
 
   } catch (e) {
+    console.error("Error:", e);
     return new Response(JSON.stringify({ error: (e as Error).message }), {
       headers: { ...cors, "Content-Type": "application/json" },
     });
   }
 });
- 
