@@ -1,80 +1,445 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello, Deno</title>
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Moranga-Regular.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Moranga-Medium.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Recursive_Variable.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="https://demo-styles.deno.deno.net/styles.css">
-  <style>
-    img {
-      display: inline-block;
-      vertical-align: middle;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#0f0f13"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="บัญชีรายจ่าย"/>
+<title>บัญชีรายรับ-รายจ่าย</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Sarabun',sans-serif;background:#0f0f13;color:#e8e6f0;min-height:100vh}
+.card{background:#17171f;border:1px solid #2a2a38;border-radius:16px}
+.inp{background:#0f0f13;border:1.5px solid #2a2a38;border-radius:10px;color:#e8e6f0;font-family:inherit;font-size:16px;padding:12px 14px;width:100%;outline:none}
+.inp:focus{border-color:#7c6aff}
+.btn-p{background:linear-gradient(135deg,#7c6aff,#a855f7);border:none;border-radius:12px;color:#fff;cursor:pointer;font-family:inherit;font-size:16px;font-weight:600;padding:14px;width:100%}
+.btn-g{background:none;border:1px solid #2a2a38;border-radius:12px;color:#6b6b8a;cursor:pointer;font-family:inherit;font-size:14px;padding:10px;width:100%}
+.btn-d{background:none;border:1px solid #f43f5e44;border-radius:12px;color:#f87171;cursor:pointer;font-family:inherit;font-size:14px;padding:10px;width:100%}
+.cat-pill{background:#1e1e2a;border:1.5px solid #2a2a38;border-radius:20px;cursor:pointer;font-size:13px;padding:8px 12px;white-space:nowrap;font-family:inherit;color:#e8e6f0}
+.cat-pill.sel-i{background:#0d2e1a;border-color:#22c55e;color:#22c55e}
+.cat-pill.sel-e{background:#2a1020;border-color:#f43f5e;color:#f43f5e}
+.txn{align-items:center;background:#1a1a24;border:1px solid #242432;border-radius:12px;display:flex;gap:12px;padding:14px}
+.circle{align-items:center;border-radius:50%;display:flex;flex-shrink:0;font-size:20px;height:44px;justify-content:center;width:44px}
+.pbar{background:#1e1e2a;border-radius:8px;height:8px;overflow:hidden}
+.pfill{border-radius:8px;height:100%}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#13131b;border-top:1px solid #2a2a38;display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:99}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;cursor:pointer;font-size:10px;color:#4a4a6a;border:none;background:none;font-family:inherit}
+.ni.on{color:#7c6aff}
+.ni .ic{font-size:20px}
+#toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);background:#17171f;border:1px solid #3a2a6a;border-radius:12px;padding:10px 20px;font-size:13px;color:#a78bfa;z-index:999;transition:transform .3s;pointer-events:none}
+#toast.on{transform:translateX(-50%) translateY(0)}
+.spin{width:28px;height:28px;border:3px solid #2a2a3a;border-top-color:#7c6aff;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.6)}
+</style>
 </head>
-
 <body>
-    <main>
-      <section>
-        <a href="https://deno.com/deploy">
-        </a>
-      <h1>
-        <p>
-          Hello, Deno!
-        </p>
-      </h1>
-      <p>
-        This little example is being served by <a href="https://deno.com/">Deno</a>.
-        You can run it locally or in porduction on <a href="https://deno.com/deploy">Deno Deploy</a> or other hosting platforms.
-      </p>
-      <ul>
-        <li>Run it locally with<code>deno task dev</code></li>
-        <li>Deploy it to <a href="https://deno.com/deploy">Deno Deploy</a> via the CLI by running<code>deno deploy</code></li>
-        <li>Run it locally and share it publically by running <code>deno deploy --connected</code></li>
-      </ul>
-    </section>
-      <hr>
-    <section>
-      <h2>What's next?</h2>
-      <p>
-        You can clone this example and deploy it to Deno Deploy in just a few clicks
-        <a href="https://app.deno.com/new?clone=https://github.com/denoland/examples&path=hello-world"><img src="https://deno.com/button" alt="Deploy on Deno"/></a>
-      </p>
-      <ul>
-        <li>
-          <a href="https://docs.deno.com/examples">More examples in the Deno Docs</a>
-        </li>
-        <li>
-          <a href="https://deno.com/deploy">Deno Deploy Early Access</a>
-        </li>
-      </ul>
-    </section>
-    </main>
-    <hr>
-    <footer>
-      <section>
-      <ul class="flex-btwn">
-        <li>
-          <a href="https://deno.com">BlueSky</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Twitter</a>
-        </li>
-        <li>
-          <a href="https://deno.com">YouTube</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Newsletter</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Deno</a>
-        </li>
-      </ul>
-      </section>
-    </footer>
+<div id="toast"></div>
+<div id="app" style="max-width:430px;margin:0 auto;padding-bottom:88px"></div>
+<nav class="nav">
+  <button class="ni on" data-tab="overview"><span class="ic">📊</span>สรุป</button>
+  <button class="ni" data-tab="history"><span class="ic">📋</span>รายการ</button>
+  <button class="ni" data-tab="slip"><span class="ic">📸</span>สแกนสลิป</button>
+  <button class="ni" data-tab="add"><span class="ic">➕</span>เพิ่ม</button>
+  <button class="ni" data-tab="settings"><span class="ic">⚙️</span>ตั้งค่า</button>
+</nav>
+<script>
+// ─── CONFIG ───────────────────────────────────────────
+const PROXY = "https://examples-hello-world.ohcha2303.deno.net"; // v_final
+const SK = "exp_v3";
+const today = new Date().toISOString().split("T")[0];
+const MONTHS = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+
+const CATS = {
+  income:[
+    {id:"salary",label:"เงินเดือน",icon:"💼"},
+    {id:"freelance",label:"ฟรีแลนซ์",icon:"💻"},
+    {id:"investment",label:"การลงทุน",icon:"📈"},
+    {id:"other_in",label:"อื่นๆ",icon:"✨"},
+  ],
+  expense:[
+    {id:"food",label:"อาหาร",icon:"🍜"},
+    {id:"grocery",label:"ของกิน",icon:"🛒"},
+    {id:"snack",label:"ของกินเล่น",icon:"🍿"},
+    {id:"transport",label:"เดินทาง",icon:"🚗"},
+    {id:"shopping",label:"ช้อปปิ้ง",icon:"🛍"},
+    {id:"health",label:"สุขภาพ",icon:"💊"},
+    {id:"insurance",label:"ประกัน",icon:"🛡️"},
+    {id:"invest",label:"ลงทุน",icon:"📊"},
+    {id:"entertainment",label:"บันเทิง",icon:"🎬"},
+    {id:"utilities",label:"ค่าสาธารณูปโภค",icon:"💡"},
+    {id:"other_out",label:"อื่นๆ",icon:"📦"},
+  ]
+};
+const ALL = [...CATS.income, ...CATS.expense];
+
+// ─── STATE ────────────────────────────────────────────
+let txns = [], tab = "overview", month = today.slice(0,7), editId = null;
+let form = {type:"expense",category:"food",amount:"",note:"",date:today};
+let slip = {st:"idle",img:"",result:null,err:""};
+
+// ─── HELPERS ──────────────────────────────────────────
+const getCat = id => ALL.find(c=>c.id===id) || {label:id,icon:"💰"};
+const money = n => n.toLocaleString("th-TH",{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtDate = iso => new Date(iso).toLocaleDateString("th-TH",{day:"numeric",month:"short",year:"2-digit"});
+const monthLbl = ym => { const [y,m]=ym.split("-").map(Number); return `${MONTHS[m-1]} ${y+543}`; };
+
+// ─── STORAGE ──────────────────────────────────────────
+function loadTxns() {
+  try {
+    const d = localStorage.getItem(SK);
+    return d ? JSON.parse(d) : [
+      {id:1,type:"income",category:"salary",amount:35000,note:"เงินเดือน",date:today},
+      {id:2,type:"expense",category:"food",amount:450,note:"ข้าวกลางวัน",date:today},
+      {id:3,type:"expense",category:"transport",amount:120,note:"รถไฟฟ้า",date:today},
+    ];
+  } catch(e) { return []; }
+}
+function saveTxns() {
+  try { localStorage.setItem(SK, JSON.stringify(txns)); toast("✅ บันทึกแล้ว"); }
+  catch(e) { toast("❌ บันทึกไม่สำเร็จ"); }
+}
+
+// ─── TOAST ────────────────────────────────────────────
+let toastT;
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.classList.add("on");
+  clearTimeout(toastT); toastT = setTimeout(()=>el.classList.remove("on"), 2200);
+}
+
+// ─── SLIP SCANNER ─────────────────────────────────────
+function onFile(e) {
+  const file = e.target.files[0]; if(!file) return;
+  const fr = new FileReader();
+  fr.onload = ev => {
+    slip = {st:"loading", img:ev.target.result, result:null, err:""};
+    render();
+    // บีบอัดรูปก่อนส่ง
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let w=img.width, h=img.height;
+      const max=600; // เล็กลงเพื่อไม่ให้ payload ใหญ่เกิน
+      if(w>max||h>max){ if(w>h){h=Math.round(h*max/w);w=max;}else{w=Math.round(w*max/h);h=max;} }
+      canvas.width=w; canvas.height=h;
+      canvas.getContext("2d").drawImage(img,0,0,w,h);
+      analyzeSlip(canvas.toDataURL("image/jpeg",0.6));
+    };
+    img.src = ev.target.result;
+  };
+  fr.readAsDataURL(file);
+}
+
+async function analyzeSlip(dataUrl) {
+  try {
+    const base64 = dataUrl.split(",")[1];
+    const payload = {
+      contents:[{parts:[
+        {inline_data:{mime_type:"image/jpeg",data:base64}},
+        {text:`นี่คือสลิปโอนเงินแบงค์ไทย อ่านและตอบเป็น JSON บริสุทธิ์เท่านั้น ห้ามมี markdown:
+{"amount":<ยอดตัวเลข>,"date":"<YYYY-MM-DD>","note":"<ชื่อผู้รับ>","bank":"<แบงค์>","confidence":<0-100>}
+อ่านไม่ได้: {"error":"อ่านไม่ได้"}`}
+      ]}]
+    };
+    const res = await fetch(PROXY, {
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload)
+    });
+    const data = await res.json();
+    // Gemini response format
+    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    const clean = raw.replace(/```json|```/g,"").trim();
+    const parsed = JSON.parse(clean);
+    if(parsed.error) {
+      slip = {...slip, st:"error", err:parsed.error};
+    } else {
+      slip = {...slip, st:"done", result:parsed};
+      form = {type:"expense", category:"other_out", amount:String(parsed.amount||""), note:parsed.note||"", date:parsed.date||today};
+    }
+  } catch(e) {
+    slip = {...slip, st:"error", err:"❌ "+e.message};
+  }
+  render();
+}
+
+// ─── ACTIONS ──────────────────────────────────────────
+function changeMonth(d) {
+  const [y,m] = month.split("-").map(Number);
+  const dt = new Date(y,m-1+d,1);
+  month = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}`;
+  render();
+}
+function submitForm() {
+  const amt = parseFloat(form.amount); if(!amt||isNaN(amt)) return;
+  if(editId!==null) { txns=txns.map(t=>t.id===editId?{...t,...form,amount:amt}:t); editId=null; }
+  else { txns=[...txns,{...form,id:Date.now(),amount:amt}]; }
+  form = {type:"expense",category:"food",amount:"",note:"",date:today};
+  slip = {st:"idle",img:"",result:null,err:""};
+  saveTxns(); tab="history"; render();
+}
+function startEdit(id) {
+  const t=txns.find(x=>x.id===id); if(!t) return;
+  form={type:t.type,category:t.category,amount:String(t.amount),note:t.note,date:t.date};
+  editId=id; tab="add"; render();
+}
+function delTxn(id) { txns=txns.filter(t=>t.id!==id); saveTxns(); render(); }
+function cancelEdit() { editId=null; form={type:"expense",category:"food",amount:"",note:"",date:today}; render(); }
+function resetSlip() { slip={st:"idle",img:"",result:null,err:""}; render(); }
+
+// ─── RENDER ───────────────────────────────────────────
+function render() {
+  document.querySelectorAll(".ni").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
+  const f = txns.filter(t=>t.date.startsWith(month)).sort((a,b)=>b.date.localeCompare(a.date));
+  const inc = f.filter(t=>t.type==="income").reduce((s,t)=>s+t.amount,0);
+  const exp = f.filter(t=>t.type==="expense").reduce((s,t)=>s+t.amount,0);
+  const bal = inc-exp;
+  const spendPct = inc>0 ? Math.min(exp/inc*100,100) : 0;
+  const savePct  = inc>0 ? Math.max((inc-exp)/inc*100,0) : 0;
+  const cats = form.type==="income" ? CATS.income : CATS.expense;
+
+  // header
+  let h = `
+  <div style="padding:24px 20px 0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div>
+        <div style="font-size:11px;color:#6b6b8a;text-transform:uppercase;letter-spacing:1px">บัญชีส่วนตัว</div>
+        <div style="font-size:20px;font-weight:700;margin-top:2px">รายรับ-รายจ่าย</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button id="bPrev" style="background:#1e1e2a;border:1px solid #2a2a38;border-radius:8px;color:#aaa;cursor:pointer;font-size:18px;padding:5px 10px;font-family:inherit">‹</button>
+        <span style="font-size:13px;font-weight:600;min-width:72px;text-align:center">${monthLbl(month)}</span>
+        <button id="bNext" style="background:#1e1e2a;border:1px solid #2a2a38;border-radius:8px;color:#aaa;cursor:pointer;font-size:18px;padding:5px 10px;font-family:inherit">›</button>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#1a1530,#201535,#1a2035);border:1px solid #3a2a6a;border-radius:20px;padding:20px 20px 16px;margin-bottom:14px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-24px;right:-24px;width:100px;height:100px;background:radial-gradient(circle,rgba(124,106,255,.2),transparent 70%);border-radius:50%"></div>
+      <div style="font-size:12px;color:#8b7fc0;margin-bottom:4px">ยอดคงเหลือ</div>
+      <div style="font-size:32px;font-weight:700;color:${bal>=0?"#a78bfa":"#f87171"};letter-spacing:-1px">${bal<0?"-":""}฿${money(Math.abs(bal))}</div>
+      <div style="display:flex;gap:16px;margin-top:14px">
+        <div><div style="font-size:11px;color:#6b6b8a;margin-bottom:2px">รายรับ</div><div style="font-size:14px;font-weight:600;color:#22c55e">+฿${money(inc)}</div></div>
+        <div style="width:1px;background:#2a2a3a"></div>
+        <div><div style="font-size:11px;color:#6b6b8a;margin-bottom:2px">รายจ่าย</div><div style="font-size:14px;font-weight:600;color:#f43f5e">-฿${money(exp)}</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 20px">`;
+
+  // ── overview ──
+  if(tab==="overview"){
+    const byCat = {};
+    f.filter(t=>t.type==="expense").forEach(t=>{byCat[t.category]=(byCat[t.category]||0)+t.amount;});
+    const sorted = Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
+    h += `<div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card" style="padding:18px">
+        <div style="font-size:13px;color:#8b7fc0;font-weight:600;margin-bottom:8px">การใช้เงินเดือนนี้</div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#6b6b8a;margin-bottom:6px">
+          <span>ใช้ไป ${spendPct.toFixed(1)}%</span><span>เหลือ ${savePct.toFixed(1)}%</span>
+        </div>
+        <div class="pbar" style="height:12px">
+          <div class="pfill" style="width:${spendPct}%;background:${spendPct>=90?"linear-gradient(90deg,#f43f5e,#fb923c)":spendPct>=70?"linear-gradient(90deg,#fb923c,#fbbf24)":"linear-gradient(90deg,#7c6aff,#22c55e)"}"></div>
+        </div>
+        <div style="font-size:11px;color:#4a4a6a;text-align:right;margin-top:4px">${inc>0?"รายรับ ฿"+money(inc):"ยังไม่มีรายรับ"}</div>
+      </div>
+      <div class="card" style="padding:18px">
+        <div style="font-size:13px;color:#8b7fc0;font-weight:600;margin-bottom:14px">รายจ่ายตามหมวดหมู่</div>
+        ${sorted.length===0?`<div style="color:#4a4a6a;text-align:center;padding:12px 0">ยังไม่มีรายจ่าย</div>`:
+        sorted.map(([cat,amt])=>{
+          const base=inc>0?inc:exp; const pct=base>0?amt/base*100:0;
+          const c=getCat(cat);
+          return`<div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
+              <span>${c.icon} ${c.label}</span>
+              <span style="color:#f43f5e;font-weight:600">฿${money(amt)} <span style="color:#5a5a7a;font-size:11px">(${pct.toFixed(1)}%)</span></span>
+            </div>
+            <div class="pbar"><div class="pfill" style="width:${Math.min(pct,100)}%;background:linear-gradient(90deg,#f43f5e,#fb923c)"></div></div>
+          </div>`;
+        }).join("")}
+      </div>
+      <div class="card" style="padding:18px">
+        <div style="font-size:13px;color:#8b7fc0;font-weight:600;margin-bottom:12px">สถิติ</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          ${[["รายการทั้งหมด",f.length+" รายการ","#7c6aff"],
+             ["ออมได้",inc>0?savePct.toFixed(1)+"%":"—","#22c55e"],
+             ["รายจ่าย/วัน",exp>0?"฿"+money(exp/new Date(...month.split("-").map((v,i)=>i===1?Number(v):Number(v))).getDate()||30):"-","#f43f5e"],
+             ["ยอดคงเหลือ",bal>=0?"฿"+money(bal):"−฿"+money(Math.abs(bal)),bal>=0?"#a78bfa":"#f87171"]
+          ].map(([l,v,c])=>`<div style="background:#0f0f13;border-radius:10px;padding:12px">
+            <div style="font-size:11px;color:#5a5a7a;margin-bottom:5px">${l}</div>
+            <div style="font-size:14px;font-weight:700;color:${c}">${v}</div>
+          </div>`).join("")}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // ── history ──
+  else if(tab==="history"){
+    h += `<div style="display:flex;flex-direction:column;gap:10px">`;
+    if(!f.length) h+=`<div style="text-align:center;padding:40px 0;color:#4a4a6a"><div style="font-size:40px;margin-bottom:10px">📭</div>ยังไม่มีรายการ</div>`;
+    else f.forEach(t=>{
+      const c=getCat(t.category);
+      h+=`<div class="txn">
+        <div class="circle" style="background:${t.type==="income"?"#0d2e1a":"#2a1020"}">${c.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;font-size:14px;margin-bottom:2px">${c.label}</div>
+          <div style="font-size:12px;color:#5a5a7a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.note||"—"} · ${fmtDate(t.date)}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:15px;font-weight:700;color:${t.type==="income"?"#22c55e":"#f43f5e"}">${t.type==="income"?"+":"-"}฿${money(t.amount)}</div>
+          <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:4px">
+            <button data-edit="${t.id}" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px">✏️</button>
+            <button data-del="${t.id}" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px">🗑️</button>
+          </div>
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+  }
+
+  // ── slip ──
+  else if(tab==="slip"){
+    h+=`<div style="display:flex;flex-direction:column;gap:14px">
+      <div style="font-size:13px;color:#6b6b8a;text-align:center">ถ่ายรูปหรือเลือกสลิปโอนเงิน<br>AI จะอ่านข้อมูลให้อัตโนมัติ</div>
+      <input type="file" id="fInput" accept="image/*" style="display:none"/>`;
+    if(slip.st==="idle"){
+      h+=`<div style="display:flex;gap:10px">
+        <button id="bGallery" style="flex:1;background:#1e1e2a;border:2px dashed #3a2a6a;border-radius:16px;color:#e8e6f0;cursor:pointer;font-family:inherit;padding:20px 10px;text-align:center">
+          <div style="font-size:34px;margin-bottom:6px">🖼️</div><div style="font-size:13px;font-weight:600">เลือกจากคลัง</div>
+        </button>
+        <button id="bCamera" style="flex:1;background:#1e1e2a;border:2px dashed #3a2a6a;border-radius:16px;color:#e8e6f0;cursor:pointer;font-family:inherit;padding:20px 10px;text-align:center">
+          <div style="font-size:34px;margin-bottom:6px">📷</div><div style="font-size:13px;font-weight:600">ถ่ายรูป</div>
+        </button>
+      </div>
+      <div style="font-size:12px;color:#4a4a6a;text-align:center">รองรับ KBANK · SCB · KTB · BBL · PromptPay</div>`;
+    } else {
+      h+=`<div style="position:relative"><img src="${slip.img}" style="width:100%;border-radius:12px;max-height:220px;object-fit:contain;background:#0a0a10"/>
+        <button id="bReset" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.75);border:none;border-radius:50%;color:#fff;cursor:pointer;font-size:16px;width:30px;height:30px">✕</button>
+      </div>`;
+      if(slip.st==="loading"){
+        h+=`<div style="text-align:center;padding:20px"><div class="spin"></div><div style="margin-top:10px;font-size:13px;color:#8b7fc0">AI กำลังอ่านสลิป...</div></div>`;
+      } else if(slip.st==="error"){
+        h+=`<div style="background:#1a0d0d;border:1px solid #f43f5e33;border-radius:12px;padding:16px">
+          <div style="font-size:13px;color:#f87171;margin-bottom:10px">❌ ${slip.err}</div>
+          <button id="bReset2" class="btn-d">ลองใหม่</button>
+        </div>`;
+      } else if(slip.st==="done"&&slip.result){
+        const r=slip.result;
+        h+=`<div style="background:#0d1a10;border:1px solid #22c55e33;border-radius:12px;padding:16px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+            <span style="font-size:20px">✅</span>
+            <div><div style="font-weight:700;color:#22c55e;font-size:14px">อ่านสลิปสำเร็จ</div>
+            <div style="font-size:11px;color:#4a6a4a">${r.bank||""} · มั่นใจ ${r.confidence||"?"}%</div></div>
+          </div>
+          <div style="font-size:13px;display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between"><span style="color:#6b6b8a">ยอดเงิน</span><span style="font-weight:700;color:#22c55e">฿${money(r.amount||0)}</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#6b6b8a">วันที่</span><span>${r.date||"-"}</span></div>
+            <div style="display:flex;justify-content:space-between;gap:8px"><span style="color:#6b6b8a;flex-shrink:0">รายละเอียด</span><span style="text-align:right">${r.note||"-"}</span></div>
+          </div>
+          <button id="bConfirm" class="btn-p" style="background:linear-gradient(135deg,#22c55e,#16a34a)">✅ ยืนยัน — ไปกรอกรายการ</button>
+        </div>`;
+      }
+    }
+    h+=`</div>`;
+  }
+
+  // ── add ──
+  else if(tab==="add"){
+    h+=`<div class="card" style="padding:18px;display:flex;flex-direction:column;gap:14px">
+      ${slip.st==="done"?`<div style="background:#0d1a10;border:1px solid #22c55e33;border-radius:8px;padding:10px;font-size:12px;color:#4ade80">📸 ข้อมูลจากสลิป — ตรวจสอบแล้วกด เพิ่มรายการ</div>`:""}
+      <div>
+        <div style="font-size:12px;color:#6b6b8a;margin-bottom:6px">ประเภท</div>
+        <div style="display:flex;gap:8px">
+          <button data-type="income" style="flex:1;border-radius:10px;font-size:14px;font-weight:600;padding:10px;cursor:pointer;font-family:inherit;color:${form.type==="income"?"#fff":"#5a5a7a"};background:${form.type==="income"?"#0d2e1a":"#1a1a24"};border:1.5px solid ${form.type==="income"?"#22c55e":"#2a2a38"}">💰 รายรับ</button>
+          <button data-type="expense" style="flex:1;border-radius:10px;font-size:14px;font-weight:600;padding:10px;cursor:pointer;font-family:inherit;color:${form.type==="expense"?"#fff":"#5a5a7a"};background:${form.type==="expense"?"#2a1020":"#1a1a24"};border:1.5px solid ${form.type==="expense"?"#f43f5e":"#2a2a38"}">💸 รายจ่าย</button>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#6b6b8a;margin-bottom:6px">หมวดหมู่</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          ${cats.map(c=>`<button class="cat-pill ${form.category===c.id?(form.type==="income"?"sel-i":"sel-e"):""}" data-cat="${c.id}">${c.icon} ${c.label}</button>`).join("")}
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#6b6b8a;margin-bottom:6px">จำนวนเงิน (บาท)</div>
+        <input class="inp" id="iAmt" type="number" inputmode="decimal" placeholder="0.00" value="${form.amount}"/>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#6b6b8a;margin-bottom:6px">หมายเหตุ</div>
+        <input class="inp" id="iNote" type="text" placeholder="บันทึกรายการ..." maxlength="80" value="${form.note}"/>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#6b6b8a;margin-bottom:6px">วันที่</div>
+        <input class="inp" id="iDate" type="date" value="${form.date}"/>
+      </div>
+      <button id="bSubmit" class="btn-p">${editId!==null?"💾 บันทึกการแก้ไข":"✅ เพิ่มรายการ"}</button>
+      ${editId!==null?`<button id="bCancelEdit" class="btn-g">ยกเลิก</button>`:""}
+    </div>`;
+  }
+
+  // ── settings ──
+  else if(tab==="settings"){
+    h+=`<div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card" style="padding:18px">
+        <div style="font-weight:700;margin-bottom:4px">🔑 สถานะ Gemini API</div>
+        <div style="font-size:12px;color:#5a5a7a;margin-bottom:12px">ฟรีถาวร — <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#7c6aff">aistudio.google.com</a></div>
+        <div style="background:#0d2e1a;border:1px solid #22c55e44;border-radius:8px;padding:10px;font-size:13px;color:#4ade80">✅ เชื่อมต่อผ่าน Apps Script แล้ว</div>
+      </div>
+      <div class="card" style="padding:18px">
+        <div style="font-weight:700;margin-bottom:12px">📖 วิธีใช้สแกนสลิป</div>
+        ${[["1","กดแท็บ 📸 สแกนสลิป"],["2","เลือกจากคลัง หรือถ่ายรูปสลิป"],["3","AI อ่านยอด วันที่ ชื่อผู้รับ"],["4","กด ✅ ยืนยัน แล้วเลือกหมวดหมู่"]].map(([n,t])=>`
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+          <div style="background:#7c6aff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${n}</div>
+          <div style="font-size:13px">${t}</div>
+        </div>`).join("")}
+      </div>
+    </div>`;
+  }
+
+  h+=`</div>`;
+  document.getElementById("app").innerHTML = h;
+
+  // ── bind events ──
+  document.getElementById("bPrev")?.addEventListener("click",()=>changeMonth(-1));
+  document.getElementById("bNext")?.addEventListener("click",()=>changeMonth(1));
+
+  document.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>startEdit(+b.dataset.edit)));
+  document.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>delTxn(+b.dataset.del)));
+
+  const fi=document.getElementById("fInput");
+  fi?.addEventListener("change",onFile);
+  document.getElementById("bGallery")?.addEventListener("click",()=>{fi.removeAttribute("capture");fi.click()});
+  document.getElementById("bCamera")?.addEventListener("click",()=>{fi.setAttribute("capture","environment");fi.click()});
+  document.getElementById("bReset")?.addEventListener("click",resetSlip);
+  document.getElementById("bReset2")?.addEventListener("click",resetSlip);
+  document.getElementById("bConfirm")?.addEventListener("click",()=>{tab="add";render()});
+
+  document.querySelectorAll("[data-type]").forEach(b=>b.addEventListener("click",()=>{
+    form.type=b.dataset.type; form.category=form.type==="income"?"salary":"food"; render();
+  }));
+  document.querySelectorAll("[data-cat]").forEach(b=>b.addEventListener("click",()=>{form.category=b.dataset.cat;render()}));
+  document.getElementById("iAmt")?.addEventListener("input",e=>form.amount=e.target.value);
+  document.getElementById("iNote")?.addEventListener("input",e=>form.note=e.target.value);
+  document.getElementById("iDate")?.addEventListener("change",e=>form.date=e.target.value);
+  document.getElementById("bSubmit")?.addEventListener("click",submitForm);
+  document.getElementById("bCancelEdit")?.addEventListener("click",cancelEdit);
+}
+
+// ── NAV ──────────────────────────────────────────────
+document.querySelectorAll(".ni").forEach(b=>b.addEventListener("click",()=>{tab=b.dataset.tab;render()}));
+
+// ── INIT ─────────────────────────────────────────────
+txns = loadTxns();
+render();
+
+// ── SERVICE WORKER ───────────────────────────────────
+if("serviceWorker" in navigator){
+  const sw=`const C="ev4";self.addEventListener("install",e=>e.waitUntil(caches.open(C).then(c=>c.addAll(["/"]))));self.addEventListener("fetch",e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))))`;
+  navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:"application/javascript"})));
+}
+</script>
 </body>
 </html>
