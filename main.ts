@@ -1,4 +1,4 @@
-const GEMINI_KEY = "AIzaSyB8QU14XxAA2zIx9Yo_fsPRLyo55rR4lGw";
+const GEMINI_KEY = "AIzaSyCXZDOA1P2O41LOopi-EGiRfpFDx-LdrtQ";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
