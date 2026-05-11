@@ -12,29 +12,13 @@ Deno.serve(async (req) => {
   }
 
   if (req.method === "GET") {
-    return new Response(JSON.stringify({ status: "ok" }), {
+    return new Response(JSON.stringify({ status: "ok", hasKey: !!GEMINI_KEY }), {
       headers: { ...cors, "Content-Type": "application/json" },
     });
   }
 
   try {
-    const text = await req.text();
-    console.log("Body length:", text.length);
-    console.log("Body preview:", text.slice(0, 100));
-
-    if (!text || text.length === 0) {
-      return new Response(JSON.stringify({ error: "Empty body" }), {
-        headers: { ...cors, "Content-Type": "application/json" },
-      });
-    }
-
-    const { img, mime } = JSON.parse(text);
-
-    if (!img) {
-      return new Response(JSON.stringify({ error: "No image data" }), {
-        headers: { ...cors, "Content-Type": "application/json" },
-      });
-    }
+    const { img, mime } = await req.json();
 
     const body = {
       contents: [{
@@ -56,7 +40,6 @@ Deno.serve(async (req) => {
     });
 
   } catch (e) {
-    console.error("Error:", e);
     return new Response(JSON.stringify({ error: (e as Error).message }), {
       headers: { ...cors, "Content-Type": "application/json" },
     });
